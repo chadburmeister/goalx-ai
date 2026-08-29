@@ -202,6 +202,18 @@ h3{font-family:Fraunces,Georgia,serif;font-weight:500;font-size:21px;line-height
 .book-card .def{font-size:15.5px;color:#C3CDDA;line-height:1.6;margin:0;padding-top:22px;border-top:1px solid var(--line-dark)}
 .book-grid p{color:var(--muted);margin:0 0 16px}
 
+/* ---------- dedication ---------- */
+.dedication{background:var(--paper-2);border-top:1px solid var(--line)}
+.ded-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:56px;align-items:start}
+.ded-grid h2{margin:0}
+.ded-body p{color:var(--muted);margin:0 0 16px;max-width:560px}
+.ded-name{
+  font-family:Fraunces,Georgia,serif;font-size:19px;line-height:1.45;color:var(--text)!important;
+  border-left:3px solid var(--gold);padding:2px 0 2px 20px;margin:26px 0 24px!important;letter-spacing:-.012em;
+}
+.ded-name span{display:block;font-family:Inter,sans-serif;font-size:14px;color:var(--muted);letter-spacing:0;margin-top:6px}
+.ded-close{font-size:15.5px;font-style:italic;color:var(--muted)!important}
+
 /* ---------- cta ---------- */
 .cta{
   background:radial-gradient(760px 380px at 50% -10%, rgba(217,166,63,.20), transparent 62%), var(--ink);
@@ -220,7 +232,7 @@ footer{background:#0A1017;color:var(--muted-light);padding:52px 0 40px;font-size
 
 /* ---------- responsive ---------- */
 @media (max-width:900px){
-  .two-col,.skip-grid,.book-grid,.modes{grid-template-columns:1fr;gap:38px}
+  .two-col,.skip-grid,.book-grid,.modes,.ded-grid{grid-template-columns:1fr;gap:38px}
   .movements{grid-template-columns:1fr 1fr}
   .priv-grid{grid-template-columns:1fr}
   section{padding:68px 0}
@@ -477,6 +489,23 @@ footer{background:#0A1017;color:var(--muted-light);padding:52px 0 40px;font-size
   </div>
 </section>
 
+<section class="dedication" id="skip-miller">
+  <div class="wrap">
+    <div class="ded-grid">
+      <div>
+        <p class="kicker">Why Skip?</p>
+        <h2>The name belongs<br>to someone.</h2>
+      </div>
+      <div class="ded-body">
+        <p>Skip Miller mentored me at three different companies. Somewhere along the way he stopped being a mentor and became a friend.</p>
+        <p>He founded M3 Learning in 1995 — the day before he turned forty — wrote seven books, and taught ProActive Selling to more than 300,000 people across 35 countries. He had a way of asking the question you'd been avoiding, and then waiting.</p>
+        <p class="ded-name">William “Skip” Richard Miller<br><span>November 3, 1955 — December 28, 2023</span></p>
+        <p class="ded-close">The guide in this app carries his name because of the way he asked questions. It is not him, and it does not speak for him — no software could. It's a thank-you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="cta">
   <div class="wrap">
     <h2>What are you truly seeking?</h2>
@@ -500,6 +529,7 @@ footer{background:#0A1017;color:var(--muted-light);padding:52px 0 40px;font-size
         <a href="#skip">Meet Skip</a>
         <a href="#coaches">For Coaches</a>
         <a href="#book">The Book</a>
+        <a href="#skip-miller">Why Skip?</a>
         <a href="https://getzeteo.com" target="_blank" rel="noopener">getzeteo.com</a>
         <a href="/coach">Chat with Skip</a>
       </div>
