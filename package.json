@@ -1,0 +1,9 @@
+{
+  "name": "goalx-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GoalX — a guided conversation that helps you discover what you truly want. Landing page + Skip, the outcome-frame coach.",
+  "engines": {
+    "node": ">=20"
+  }
+}

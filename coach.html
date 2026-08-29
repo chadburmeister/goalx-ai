@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chat with Skip — GoalX</title>
+<meta name="description" content="A guided conversation with Skip that helps you discover what you truly want. Eighteen questions, one at a time. Nothing is stored.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E1520">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230E1520'/%3E%3Cpath d='M50 22 L50 78 M32 40 L50 22 L68 40' stroke='%23E0B558' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --ink:#0E1520; --ink-2:#16202D; --ink-3:#1E2A3A;
+  --paper:#FBF8F3; --paper-2:#F3EEE5;
+  --gold:#D9A63F; --gold-soft:#E8C77E;
+  --text:#1A2330; --muted:#5C6878; --muted-light:#9AA6B4;
+  --line:rgba(26,35,48,.12); --line-dark:rgba(232,199,126,.16);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;background:var(--paper);color:var(--text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;
+}
+.serif{font-family:Fraunces,Georgia,serif;font-weight:400;letter-spacing:-.018em}
+button{font-family:inherit}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--gold);color:#171106;border:0;border-radius:999px;
+  padding:12px 24px;font-size:15px;font-weight:600;cursor:pointer;
+  transition:background .16s, transform .16s, opacity .16s;text-decoration:none;
+}
+.btn:hover:not(:disabled){background:var(--gold-soft);transform:translateY(-1px)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-sm{padding:9px 17px;font-size:14px}
+.btn-quiet{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.btn-quiet:hover:not(:disabled){background:#fff;color:var(--text);border-color:rgba(26,35,48,.24)}
+.btn-dark{background:var(--ink);color:var(--paper)}
+.btn-dark:hover:not(:disabled){background:var(--ink-3)}
+
+/* ================= SETUP ================= */
+#setup{
+  flex:1;display:grid;place-items:center;padding:44px 20px;
+  background:
+    radial-gradient(900px 460px at 80% -10%, rgba(217,166,63,.20), transparent 62%),
+    radial-gradient(640px 380px at 5% 106%, rgba(217,166,63,.08), transparent 60%),
+    var(--ink);
+  color:var(--paper);overflow-y:auto;
+}
+.setup-card{max-width:600px;width:100%}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;letter-spacing:-.02em;margin-bottom:36px;text-decoration:none;color:var(--paper)}
+#setup h1{font-family:Fraunces,Georgia,serif;font-weight:400;font-size:clamp(30px,5vw,42px);line-height:1.13;letter-spacing:-.026em;margin:0 0 16px}
+#setup h1 em{font-style:italic;color:var(--gold-soft)}
+#setup .sub{color:#B2BECC;font-size:17px;margin:0 0 40px;max-width:480px}
+.field{margin-bottom:32px}
+.flabel{font-size:12.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:6px}
+.fhelp{font-size:14px;color:var(--muted-light);margin:0 0 14px;line-height:1.55}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{
+  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.12);border-radius:12px;
+  padding:17px 18px;cursor:pointer;text-align:left;color:#C3CDDA;transition:all .16s;
+}
+.opt:hover{border-color:rgba(232,199,126,.42);background:rgba(232,199,126,.06)}
+.opt[aria-pressed="true"]{border-color:var(--gold);background:rgba(217,166,63,.13);color:var(--paper)}
+.opt strong{display:block;font-size:15.5px;font-weight:600;margin-bottom:4px;color:var(--paper)}
+.opt span{font-size:13.5px;line-height:1.5;display:block;color:var(--muted-light)}
+.opt[aria-pressed="true"] span{color:#B9C4D2}
+input[type=text],input[type=email],textarea{
+  width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);
+  border-radius:10px;padding:13px 15px;color:var(--paper);font-family:inherit;font-size:16px;
+}
+input::placeholder,textarea::placeholder{color:#6E7A89}
+input:focus,textarea:focus{outline:2px solid rgba(217,166,63,.55);outline-offset:1px;border-color:transparent}
+.privacy-note{
+  border:1px solid var(--line-dark);background:rgba(232,199,126,.05);border-radius:12px;
+  padding:18px 20px;font-size:14.5px;color:#AEBACA;line-height:1.6;margin:6px 0 30px;
+}
+.privacy-note strong{color:var(--gold-soft);font-weight:600}
+
+/* ================= CHAT ================= */
+#app{flex:1;display:none;flex-direction:column;min-height:0}
+.topbar{
+  background:var(--ink);color:var(--paper);border-bottom:1px solid var(--line-dark);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:11px 22px;flex:none;
+}
+.topbar .brand{margin:0;font-size:16px}
+.prog{flex:1;max-width:420px;min-width:0}
+.prog-label{font-size:12px;color:var(--muted-light);display:flex;justify-content:space-between;gap:12px;margin-bottom:6px}
+.prog-label b{color:var(--gold-soft);font-weight:600}
+.prog-track{height:3px;background:rgba(255,255,255,.10);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;width:0%;background:var(--gold);border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.topacts{display:flex;gap:9px;align-items:center;flex:none}
+.icon-btn{
+  background:transparent;border:1px solid rgba(255,255,255,.16);color:#B9C4D2;
+  border-radius:999px;padding:8px 15px;font-size:13.5px;font-weight:500;cursor:pointer;transition:all .16s;
+}
+.icon-btn:hover{border-color:var(--gold);color:var(--gold-soft)}
+.icon-btn[aria-pressed="true"]{background:rgba(217,166,63,.16);border-color:var(--gold);color:var(--gold-soft)}
+
+.main{flex:1;display:flex;min-height:0}
+.stream{flex:1;overflow-y:auto;padding:38px 22px 20px;min-width:0}
+.stream-inner{max-width:720px;margin:0 auto}
+.turn{display:flex;gap:15px;margin-bottom:30px;align-items:flex-start}
+.av{width:33px;height:33px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:11.5px;font-weight:700;margin-top:2px}
+.av-skip{background:var(--gold);color:#171106}
+.av-you{background:var(--ink);color:var(--gold-soft);font-size:10.5px}
+.bubble{min-width:0;flex:1}
+.who{font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.text{white-space:pre-wrap;overflow-wrap:break-word}
+.turn-you .text{color:#3B4757}
+.turn-skip .text{font-family:Fraunces,Georgia,serif;font-size:18px;line-height:1.66;letter-spacing:-.008em}
+.text p{margin:0 0 14px}
+.text p:last-child{margin-bottom:0}
+.thinking{display:flex;gap:5px;padding:9px 0}
+.thinking i{width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:.35;animation:blip 1.3s infinite}
+.thinking i:nth-child(2){animation-delay:.18s}
+.thinking i:nth-child(3){animation-delay:.36s}
+@keyframes blip{0%,60%,100%{opacity:.28;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.err{
+  background:#FDF3F0;border:1px solid #E7C4B8;color:#8A3D22;border-radius:10px;
+  padding:13px 16px;font-size:14.5px;margin:0 0 24px;
+}
+.err button{background:none;border:0;color:#8A3D22;text-decoration:underline;cursor:pointer;font-size:14.5px;padding:0;margin-left:6px}
+
+/* composer */
+.composer{flex:none;border-top:1px solid var(--line);background:var(--paper);padding:16px 22px 20px}
+.composer-inner{max-width:720px;margin:0 auto;display:flex;gap:11px;align-items:flex-end}
+.composer textarea{
+  background:#fff;border:1px solid var(--line);color:var(--text);
+  resize:none;max-height:200px;min-height:52px;padding:15px 17px;font-size:16.5px;line-height:1.55;
+  border-radius:14px;
+}
+.composer textarea::placeholder{color:#A3AEBB}
+.composer textarea:focus{outline:2px solid rgba(217,166,63,.55);outline-offset:0;border-color:transparent}
+.send{
+  width:52px;height:52px;border-radius:50%;flex:none;background:var(--gold);color:#171106;
+  border:0;cursor:pointer;display:grid;place-items:center;transition:background .16s,opacity .16s;
+}
+.send:hover:not(:disabled){background:var(--gold-soft)}
+.send:disabled{opacity:.35;cursor:not-allowed}
+.hint{max-width:720px;margin:9px auto 0;font-size:12.5px;color:var(--muted-light);display:flex;justify-content:space-between;gap:14px}
+
+/* coach panel */
+.panel{
+  width:340px;flex:none;background:var(--paper-2);border-left:1px solid var(--line);
+  overflow-y:auto;padding:26px 24px;display:none;
+}
+.panel.open{display:block}
+.panel h2{font-family:Fraunces,Georgia,serif;font-weight:500;font-size:19px;margin:0 0 4px;letter-spacing:-.015em}
+.panel .pk{font-size:11.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin:0 0 18px}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:14px}
+.pcard h3{font-size:11.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.pcard p{margin:0;font-size:14.5px;line-height:1.6;color:var(--text)}
+.pcard.q p{font-family:Fraunces,Georgia,serif;font-size:17px;line-height:1.45}
+.panel-foot{font-size:13px;color:var(--muted);line-height:1.6;border-top:1px solid var(--line);padding-top:16px;margin-top:20px}
+.panel-foot code{background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 6px;font-size:12.5px}
+
+/* ================= OUTCOME ================= */
+.outcome{
+  border:1px solid rgba(217,166,63,.5);background:#fff;border-radius:16px;
+  padding:32px 30px;margin:6px 0 30px;box-shadow:0 12px 34px rgba(14,21,32,.07);
+}
+.outcome .ok{font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
+.outcome h2{font-family:Fraunces,Georgia,serif;font-weight:400;font-size:26px;line-height:1.2;letter-spacing:-.024em;margin:0 0 22px}
+.outcome .body{font-family:Fraunces,Georgia,serif;font-size:18px;line-height:1.7;white-space:pre-wrap;border-left:3px solid var(--gold);padding-left:22px;margin-bottom:28px}
+.exits{display:flex;flex-wrap:wrap;gap:10px;padding-top:22px;border-top:1px solid var(--line)}
+.email-row{display:none;gap:10px;margin-top:16px;width:100%;flex-wrap:wrap}
+.email-row.open{display:flex}
+.email-row input{
+  flex:1;min-width:220px;background:#fff;border:1px solid var(--line);color:var(--text);
+}
+.email-row input::placeholder{color:#A3AEBB}
+.note{font-size:13.5px;color:var(--muted);margin:16px 0 0;line-height:1.6;width:100%}
+.note.ok{color:#2F6B4A}
+.note.bad{color:#8A3D22}
+
+@media (max-width:860px){
+  .panel{
+    position:fixed;inset:0;width:auto;z-index:60;border-left:0;padding-top:20px;
+  }
+  .panel .close{display:block;margin-bottom:18px}
+  .prog{display:none}
+}
+@media (max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .stream{padding:26px 16px 14px}
+  .composer{padding:12px 14px 16px}
+  .turn-skip .text{font-size:17px}
+  .topbar{padding:10px 14px}
+  .outcome{padding:24px 20px}
+  #setup{padding:32px 18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.close{display:none;background:none;border:0;color:var(--muted);font-size:15px;cursor:pointer;padding:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+
+<!-- ============================ SETUP ============================ -->
+<div id="setup">
+  <div class="setup-card">
+    <a class="brand" href="/">
+      <svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#D9A63F"/><path d="M50 24 L50 76 M32 42 L50 24 L68 42" stroke="#171106" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      GoalX
+    </a>
+
+    <h1>Before we begin,<br>two <em>quick choices.</em></h1>
+    <p class="sub">Then Skip asks the first question. There are eighteen in all, one at a time, and it usually takes about half an hour.</p>
+
+    <div class="field">
+      <div class="flabel">Who is answering</div>
+      <p class="fhelp">Optional. Skip will use it now and then. It isn't saved anywhere.</p>
+      <input type="text" id="f-name" placeholder="First name" autocomplete="off" maxlength="60">
+    </div>
+
+    <div class="field">
+      <div class="flabel">How are you working</div>
+      <p class="fhelp">Choose coach-led if someone is guiding you and typing on your behalf.</p>
+      <div class="opts" id="f-mode">
+        <button type="button" class="opt" data-v="solo" aria-pressed="true">
+          <strong>On my own</strong><span>Just me and Skip, at my own pace.</span>
+        </button>
+        <button type="button" class="opt" data-v="coach" aria-pressed="false">
+          <strong>With a coach</strong><span>A guide reads and types. Adds a coaching panel.</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="flabel">Which voice</div>
+      <p class="fhelp">The eighteen questions are identical either way. Only the framing around them changes.</p>
+      <div class="opts" id="f-track">
+        <button type="button" class="opt" data-v="universal" aria-pressed="true">
+          <strong>Universal</strong><span>Values, purpose, and meaning — no religious language.</span>
+        </button>
+        <button type="button" class="opt" data-v="faith" aria-pressed="false">
+          <strong>Faith-based</strong><span>Scripture and prayerful reflection, as in <em>Zēteō</em>.</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="privacy-note">
+      <strong>Nothing here is stored.</strong> Your answers live in this browser tab and nowhere else — no account, no database, no record. If you close or refresh this tab before the end, the conversation is gone. At the finish you can download your summary or email it to yourself.
+    </div>
+
+    <button class="btn" id="begin" style="width:100%;padding:16px">Begin with question one →</button>
+  </div>
+</div>
+
+<!-- ============================ APP ============================ -->
+<div id="app">
+  <div class="topbar">
+    <a class="brand" href="/" title="GoalX home">
+      <svg width="24" height="24" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#D9A63F"/><path d="M50 24 L50 76 M32 42 L50 24 L68 42" stroke="#171106" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      GoalX
+    </a>
+    <div class="prog">
+      <div class="prog-label"><span id="prog-txt">Getting started</span><b id="prog-mv"></b></div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+    </div>
+    <div class="topacts">
+      <button class="icon-btn" id="panel-btn" aria-pressed="false" style="display:none">Coach panel</button>
+      <button class="icon-btn" id="wrap-btn" title="Ask Skip to summarise what you have so far">Wrap up</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="stream" id="stream">
+      <div class="stream-inner" id="inner"></div>
+    </div>
+
+    <aside class="panel" id="panel" aria-label="Coach panel">
+      <button class="close" id="panel-close">← Close panel</button>
+      <p class="pk">Coach panel · Question <span id="p-num">1</span> of 18</p>
+      <h2 id="p-mv">Destination</h2>
+      <div class="pcard q"><h3>The question</h3><p id="p-q"></p></div>
+      <div class="pcard"><h3>Well-formed when</h3><p id="p-wf"></p></div>
+      <div class="pcard"><h3>Listen for</h3><p id="p-ls"></p></div>
+      <div class="panel-foot">
+        Type an aside to Skip in double parentheses and the client never sees it addressed to them —<br>
+        <code>((she's welling up, go gentler))</code><br><br>
+        Skip handles the sequence and the reframes. You handle the person in the room.
+      </div>
+    </aside>
+  </div>
+
+  <div class="composer">
+    <div class="composer-inner">
+      <label class="sr" for="input">Your answer</label>
+      <textarea id="input" rows="1" placeholder="Take your time…"></textarea>
+      <button class="send" id="send" title="Send" aria-label="Send">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </button>
+    </div>
+    <div class="hint">
+      <span>Enter to send · Shift + Enter for a new line</span>
+      <span id="hint-privacy">Nothing is stored</span>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ------------------------------------------------------------------ *
+ * GoalX — Skip
+ * Everything below lives in this tab's memory only. There is no
+ * localStorage, no sessionStorage, no cookie, no analytics beacon.
+ * Closing the tab destroys the session, by design.
+ * ------------------------------------------------------------------ */
+
+var Q = [
+ {n:1, mv:'Destination', q:'What specifically do you want?',
+  wf:'Stated in the positive — something they are moving toward, not away from. Specific enough to picture. Theirs, not inherited.',
+  ls:'"stop", "less", "not", "get away from". Goals that belong to a parent, boss, or peer group. Vagueness — "be successful", "be happy".'},
+ {n:2, mv:'Destination', q:'What will having it do for you? For what purpose?',
+  wf:'Drills down to a core value — freedom, contribution, security, peace, love, truth — not another goal.',
+  ls:'If the answer is another outcome, chain down: "and what will THAT do for you?" Usually two or three times.'},
+ {n:3, mv:'Reality', q:'Where are you now, in relation to this goal?',
+  wf:'An honest inventory of the present: circumstances, resources, skills, relationships, energy. A snapshot, not a verdict.',
+  ls:'Self-judgment ("I\'m so far behind"). Also what they already have and are discounting.'},
+ {n:4, mv:'Reality', q:'What stops you from having what you want?',
+  wf:'Associated — described from inside their own experience, not as external blame.',
+  ls:'External attribution. Secondary gain — the hidden benefit of not yet having it.'},
+ {n:5, mv:'Design', q:'When, where, how, and with whom do you want it — and where do you NOT want it?',
+  wf:'Full context. The sentence: "I want [goal] by [when], in [where], experienced [how], shared with [whom]."',
+  ls:'"Someday." A goal with no timeframe stays a wish.'},
+ {n:6, mv:'Design', q:'Does it fit other situations in your life?',
+  wf:'Adaptable across contexts — work, home, health, community. Not dependent on life holding perfectly still.',
+  ls:'A goal that requires every other area to go on hold.'},
+ {n:7, mv:'Design', q:'How would you know when you have it?',
+  wf:'Measurable, sensory-specific evidence. Something they could see, hear, count, or hold.',
+  ls:'This is the weakest answer in most sessions. A feeling alone is not evidence. Ask what is different on an ordinary Tuesday.'},
+ {n:8, mv:'Design', q:'What will you see, hear, and feel when you have it?',
+  wf:'Rich sensory detail from inside the experience — sight, sound, felt sense.',
+  ls:'Abstraction. Offer them a scene: "Picture the first morning after. Where are you standing?"'},
+ {n:9, mv:'Design', q:'What do you look like, sound like, and feel like to others when you have it?',
+  wf:'Dissociated — watching themselves on a screen. Posture, voice, energy, what others say.',
+  ls:'Slipping back into first person. Move the camera outside the body.'},
+ {n:10, mv:'Design', q:'Is this outcome only for you, or does it affect others?',
+  wf:'The ripples mapped: self, close family, work, community, wider. What each gains, loses, or fears.',
+  ls:'"It\'s only for me" is almost never true. Ask who would notice first.'},
+ {n:11, mv:'Design', q:'Is it OK for you to get what you want?',
+  wf:'The permission question, about the same outcome named in question one. Watch for "I don\'t deserve this."',
+  ls:'Hesitation. Treat the hesitant part as protective. What is it protecting? What safeguard would settle it?'},
+ {n:12, mv:'Design', q:'Is the outcome worthwhile?',
+  wf:'Cost counted honestly — time, energy, money, delayed priorities — and weighed against meaning gained.',
+  ls:'Peace is the signal. Subtle tension is also a signal. Name it.'},
+ {n:13, mv:'Design', q:'Does it fit into your life as a whole?',
+  wf:'Congruent with identity, responsibilities, and commitments. If not, redesign — timeline, scope, support, boundaries.',
+  ls:'Role collisions. The wheel with one spoke growing unchecked.'},
+ {n:14, mv:'Design', q:'How will it affect the significant people in your life?',
+  wf:'Specific people, named. Both the gift and the cost. Then what protects those relationships.',
+  ls:'Assumptions that should be agreements. Who deserves a real conversation first?'},
+ {n:15, mv:'Becoming', q:'Is it representative of who and what you want to be?',
+  wf:'Two tests: identity congruence, AND control — self-initiated and self-maintained.',
+  ls:'The control test is the one people skip. If it depends on someone else approving, rebuild it.'},
+ {n:16, mv:'Becoming', q:'What do you stand to gain?',
+  wf:'Past external markers into the inner return — inner life, relationships, work and mission, energy and confidence.',
+  ls:'"More confidence" is thin. Confidence to do what, in front of whom?'},
+ {n:17, mv:'Becoming', q:'If you get your outcome, will you lose anything of value?',
+  wf:'What must be protected — marriage, health, integrity, family rhythms — and the specific guardrails that protect it.',
+  ls:'If they say "nothing", press once, kindly. Every real goal costs something.'},
+ {n:18, mv:'Becoming', q:'What is your first step?',
+  wf:'Small, concrete, doable within about seven days. Plus when they will do it and who they will tell.',
+  ls:'If the step is large, chunk it down until it fits in one sitting.'}
+];
+
+var S = {
+  name: '', mode: 'solo', track: 'universal',
+  messages: [],          // [{role, content}] — in memory only
+  step: 0,               // 0 = not started, 1..18, 19 = reflections, 'SUMMARY'
+  summary: '',
+  busy: false,
+  done: false
+};
+
+var $ = function(id){ return document.getElementById(id); };
+
+/* ---------- setup screen ---------- */
+function wireOpts(groupId, key){
+  var g = $(groupId);
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('.opt');
+    if(!b) return;
+    [].forEach.call(g.querySelectorAll('.opt'), function(o){ o.setAttribute('aria-pressed','false'); });
+    b.setAttribute('aria-pressed','true');
+    S[key] = b.dataset.v;
+  });
+}
+wireOpts('f-mode','mode');
+wireOpts('f-track','track');
+
+$('begin').addEventListener('click', function(){
+  S.name = $('f-name').value.trim().slice(0,60);
+  $('setup').style.display = 'none';
+  $('app').style.display = 'flex';
+  if(S.mode === 'coach'){
+    $('panel-btn').style.display = '';
+    togglePanel(true);
+  }
+  renderPanel(1);
+  window.addEventListener('beforeunload', guard);
+  send(null); // opening turn — Skip speaks first
+});
+
+function guard(e){
+  if(S.messages.length === 0 || S.done) return;
+  e.preventDefault();
+  e.returnValue = '';
+}
+
+/* ---------- coach panel ---------- */
+function togglePanel(force){
+  var p = $('panel');
+  var open = typeof force === 'boolean' ? force : !p.classList.contains('open');
+  p.classList.toggle('open', open);
+  $('panel-btn').setAttribute('aria-pressed', open ? 'true' : 'false');
+}
+$('panel-btn').addEventListener('click', function(){ togglePanel(); });
+$('panel-close').addEventListener('click', function(){ togglePanel(false); });
+
+function renderPanel(n){
+  var q = Q[Math.min(Math.max(n,1),18) - 1];
+  if(!q) return;
+  $('p-num').textContent = q.n;
+  $('p-mv').textContent = q.mv;
+  $('p-q').textContent = q.q;
+  $('p-wf').textContent = q.wf;
+  $('p-ls').textContent = q.ls;
+}
+
+/* ---------- progress ---------- */
+function setStep(step){
+  if(step === null || step === undefined) return;
+  if(step === 'SUMMARY'){
+    S.step = 'SUMMARY';
+    $('prog-txt').textContent = 'Complete';
+    $('prog-mv').textContent = 'Your outcome';
+    $('prog-fill').style.width = '100%';
+    // The panel's job is done — replace the prompts with the close-out note.
+    $('p-num').textContent = '18';
+    $('p-mv').textContent = 'Session complete';
+    $('p-q').textContent = 'All eighteen questions and the four reflections are done.';
+    $('p-wf').textContent = 'Read the summary back to them out loud before they leave. Hearing their own words in someone else’s voice is often the moment it lands.';
+    $('p-ls').textContent = 'Make sure they leave with a copy — downloaded or emailed. Once this tab closes, nothing remains.';
+    return;
+  }
+  var n = parseInt(step, 10);
+  if(isNaN(n)) return;
+  S.step = n;
+  if(n >= 19){
+    $('prog-txt').textContent = 'Final reflections';
+    $('prog-mv').textContent = 'Alignment';
+    $('prog-fill').style.width = '97%';
+  } else {
+    var q = Q[n-1];
+    $('prog-txt').textContent = 'Question ' + n + ' of 18';
+    $('prog-mv').textContent = q ? q.mv : '';
+    $('prog-fill').style.width = Math.max(3, Math.round((n-1)/18*100)) + '%';
+    renderPanel(n);
+  }
+}
+
+/* ---------- rendering ---------- */
+function paras(text){
+  var frag = document.createDocumentFragment();
+  String(text).split(/\n{2,}/).forEach(function(chunk){
+    var p = document.createElement('p');
+    p.textContent = chunk.trim();
+    frag.appendChild(p);
+  });
+  return frag;
+}
+
+function addTurn(role, text){
+  var d = document.createElement('div');
+  d.className = 'turn turn-' + (role === 'assistant' ? 'skip' : 'you');
+  var av = document.createElement('div');
+  av.className = 'av ' + (role === 'assistant' ? 'av-skip' : 'av-you');
+  av.textContent = role === 'assistant' ? 'S' : (S.name ? S.name[0].toUpperCase() : 'YOU');
+  var b = document.createElement('div');
+  b.className = 'bubble';
+  var w = document.createElement('div');
+  w.className = 'who';
+  w.textContent = role === 'assistant' ? 'Skip' : (S.name || 'You');
+  var t = document.createElement('div');
+  t.className = 'text';
+  t.appendChild(paras(text));
+  b.appendChild(w); b.appendChild(t);
+  d.appendChild(av); d.appendChild(b);
+  $('inner').appendChild(d);
+  scroll();
+  return d;
+}
+
+function addThinking(){
+  var d = document.createElement('div');
+  d.className = 'turn turn-skip';
+  d.id = 'thinking';
+  d.innerHTML = '<div class="av av-skip">S</div><div class="bubble"><div class="who">Skip</div><div class="thinking"><i></i><i></i><i></i></div></div>';
+  $('inner').appendChild(d);
+  scroll();
+}
+function clearThinking(){ var t = $('thinking'); if(t) t.remove(); }
+
+function scroll(){
+  var s = $('stream');
+  requestAnimationFrame(function(){ s.scrollTop = s.scrollHeight; });
+}
+
+function showError(msg, retryFn){
+  clearThinking();
+  var d = document.createElement('div');
+  d.className = 'err';
+  d.textContent = msg + ' ';
+  if(retryFn){
+    var b = document.createElement('button');
+    b.textContent = 'Try again';
+    b.onclick = function(){ d.remove(); retryFn(); };
+    d.appendChild(b);
+  }
+  $('inner').appendChild(d);
+  scroll();
+}
+
+/* ---------- the conversation ---------- */
+function setBusy(v){
+  S.busy = v;
+  $('send').disabled = v;
+  $('input').disabled = v;
+  $('wrap-btn').disabled = v;
+}
+
+function send(userText){
+  if(S.busy) return;
+  if(userText){
+    S.messages.push({role:'user', content:userText});
+    addTurn('user', userText);
+  }
+  setBusy(true);
+  addThinking();
+
+  fetch('/api/chat', {
+    method:'POST',
+    headers:{'content-type':'application/json'},
+    body: JSON.stringify({
+      messages: S.messages,
+      track: S.track,
+      mode: S.mode,
+      name: S.name
+    })
+  })
+  .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+  .then(function(res){
+    clearThinking();
+    if(!res.ok || res.j.error){
+      setBusy(false);
+      showError(res.j.error || 'Something went wrong reaching Skip.', function(){ send(null); });
+      return;
+    }
+    var reply = res.j.reply || '';
+    S.messages.push({role:'assistant', content: reply});
+    setStep(res.j.step);
+
+    if(res.j.step === 'SUMMARY'){
+      S.summary = reply;
+      S.done = true;
+      renderOutcome(reply);
+    } else {
+      addTurn('assistant', reply);
+    }
+    setBusy(false);
+    $('input').focus();
+  })
+  .catch(function(){
+    setBusy(false);
+    showError('Skip could not be reached. Check your connection.', function(){ send(null); });
+  });
+}
+
+$('send').addEventListener('click', submit);
+$('input').addEventListener('keydown', function(e){
+  if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); submit(); }
+});
+$('input').addEventListener('input', function(){
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+});
+function submit(){
+  var v = $('input').value.trim();
+  if(!v || S.busy) return;
+  $('input').value = '';
+  $('input').style.height = 'auto';
+  send(v);
+}
+
+$('wrap-btn').addEventListener('click', function(){
+  if(S.busy) return;
+  var msg = S.step === 'SUMMARY'
+    ? 'Could you write the summary again?'
+    : "I'd like to stop here. Please take me through the final reflections with what we have, then write my summary.";
+  send(msg);
+});
+
+/* ---------- the outcome card ---------- */
+function renderOutcome(summaryText){
+  var card = document.createElement('div');
+  card.className = 'outcome';
+  card.innerHTML =
+    '<p class="ok">Your outcome</p>' +
+    '<h2>' + (S.name ? escapeHtml(S.name) + ', here is what you found.' : 'Here is what you found.') + '</h2>' +
+    '<div class="body"></div>' +
+    '<div class="exits">' +
+      '<button class="btn btn-sm btn-dark" id="dl-word">Download for Word</button>' +
+      '<button class="btn btn-sm btn-quiet" id="dl-pdf">Save as PDF</button>' +
+      '<button class="btn btn-sm btn-quiet" id="do-email">Email it to me</button>' +
+      '<div class="email-row" id="email-row">' +
+        '<input type="email" id="email-to" placeholder="you@example.com" autocomplete="email">' +
+        '<button class="btn btn-sm" id="email-send">Send</button>' +
+      '</div>' +
+      '<p class="note" id="exit-note">Your download and email both include this summary plus the full transcript. Once you close this tab, no copy exists anywhere but the one you take with you.</p>' +
+    '</div>';
+  card.querySelector('.body').appendChild(paras(summaryText));
+  $('inner').appendChild(card);
+  scroll();
+
+  $('dl-word').onclick = downloadWord;
+  $('dl-pdf').onclick = printPdf;
+  $('do-email').onclick = function(){
+    $('email-row').classList.toggle('open');
+    if($('email-row').classList.contains('open')) $('email-to').focus();
+  };
+  $('email-send').onclick = sendEmail;
+  $('email-to').addEventListener('keydown', function(e){ if(e.key === 'Enter') sendEmail(); });
+
+  $('input').placeholder = 'Anything else you want to work through?';
+}
+
+function escapeHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function dateStr(){
+  return new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+}
+
+function transcriptOnly(){
+  // Everything except the final summary turn.
+  return S.messages.filter(function(m, i){
+    return !(m.role === 'assistant' && i === S.messages.length - 1 && m.content === S.summary);
+  });
+}
+
+function documentHtml(){
+  var rows = transcriptOnly().map(function(m){
+    var who = m.role === 'assistant' ? 'Skip' : (S.name || 'You');
+    return '<p style="margin:0 0 4px;font-size:9.5pt;font-weight:bold;color:' +
+      (m.role === 'assistant' ? '#8a6d2f' : '#33404f') + '">' + escapeHtml(who.toUpperCase()) + '</p>' +
+      '<p style="margin:0 0 16px;font-size:11pt;line-height:1.5;white-space:pre-wrap">' + escapeHtml(m.content) + '</p>';
+  }).join('');
+
+  return '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
+    '<head><meta charset="utf-8"><title>GoalX — Your Outcome</title></head>' +
+    '<body style="font-family:Calibri,Arial,sans-serif;color:#1a2330">' +
+    '<p style="font-size:9pt;letter-spacing:2px;color:#b8892f;margin:0 0 6px">G O A L X</p>' +
+    '<h1 style="font-family:Georgia,serif;font-size:22pt;margin:0 0 4px">Your Outcome</h1>' +
+    '<p style="font-size:10pt;color:#5c6878;margin:0 0 26px">' + escapeHtml((S.name ? S.name + ' · ' : '') + dateStr()) + '</p>' +
+    '<div style="font-family:Georgia,serif;font-size:12.5pt;line-height:1.65;white-space:pre-wrap;border-left:3px solid #d9a63f;padding-left:14px">' +
+      escapeHtml(S.summary) + '</div>' +
+    '<br style="page-break-before:always">' +
+    '<h2 style="font-family:Georgia,serif;font-size:16pt;margin:0 0 20px">The Full Conversation</h2>' +
+    rows +
+    '<p style="font-size:9pt;color:#8a94a1;margin-top:30px;border-top:1px solid #ddd;padding-top:12px">' +
+    'This document is the only copy. GoalX stored nothing — not your answers, not this summary.</p>' +
+    '</body></html>';
+}
+
+function downloadWord(){
+  var blob = new Blob(['﻿', documentHtml()], {type:'application/msword'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'GoalX-Outcome-' + new Date().toISOString().slice(0,10) + '.doc';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+  note('Downloaded. Open it in Word and save as .docx if you want to edit it.', 'ok');
+}
+
+function printPdf(){
+  var w = window.open('', '_blank');
+  if(!w){ note('Your browser blocked the print window. Allow pop-ups for this page, or use the Word download.', 'bad'); return; }
+  w.document.write(documentHtml().replace('<body ', '<body onload="window.print()" '));
+  w.document.close();
+  note('In the print dialog, choose "Save as PDF" as the destination.', 'ok');
+}
+
+function sendEmail(){
+  var to = $('email-to').value.trim();
+  if(!to){ note('Enter an email address first.', 'bad'); return; }
+  var b = $('email-send');
+  b.disabled = true; b.textContent = 'Sending…';
+  fetch('/api/email', {
+    method:'POST',
+    headers:{'content-type':'application/json'},
+    body: JSON.stringify({ to: to, name: S.name, summary: S.summary, transcript: transcriptOnly() })
+  })
+  .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+  .then(function(res){
+    b.disabled = false; b.textContent = 'Send';
+    if(!res.ok || res.j.error){ note(res.j.error || 'The email could not be sent.', 'bad'); return; }
+    $('email-row').classList.remove('open');
+    note('Sent to ' + to + '. That email is now the only copy — nothing was kept here.', 'ok');
+  })
+  .catch(function(){
+    b.disabled = false; b.textContent = 'Send';
+    note('The email could not be sent. Please download your copy instead.', 'bad');
+  });
+}
+
+function note(msg, kind){
+  var n = $('exit-note');
+  if(!n) return;
+  n.textContent = msg;
+  n.className = 'note ' + (kind || '');
+}
+</script>
+</body>
+</html>
