@@ -1,0 +1,56 @@
+# goalx.ai
+#
+# Search engines and AI assistants are welcome here. The pages below are
+# reference material — the outcome frame, who built it, and why — and we would
+# rather they were read and cited than hidden.
+#
+# /coach is the live app. It is excluded because it is an interactive session,
+# not a document, and nothing there is meant to be indexed.
+
+User-agent: *
+Allow: /
+Disallow: /coach
+Disallow: /api/
+
+# Explicitly welcome, so this isn't left to a default.
+User-agent: GPTBot
+Allow: /
+Disallow: /coach
+Disallow: /api/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /coach
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /coach
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /coach
+Disallow: /api/
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /coach
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /coach
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /coach
+Disallow: /api/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /coach
+Disallow: /api/
+
+Sitemap: https://goalx.ai/sitemap.xml

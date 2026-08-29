@@ -3,22 +3,87 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GoalX — Discover what you truly want</title>
-<meta name="description" content="GoalX is a guided conversation that helps you discover what you truly want. Eighteen questions drawn from decades of research in linguistics, psychology, and human change — walked with you by Skip, your AI guide. Nothing stored. Free.">
+<title>GoalX — The Outcome Frame, in conversation</title>
+<meta name="description" content="GoalX walks you through the outcome frame: eighteen questions that turn a vague wish into a well-formed outcome. Free, no account, nothing stored.">
 <link rel="canonical" href="https://goalx.ai/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://goalx.ai/">
-<meta property="og:title" content="GoalX — Discover what you truly want">
-<meta property="og:description" content="Most people run fast in the wrong direction. GoalX is a guided conversation that helps you find out where you're actually going.">
+<meta property="og:title" content="GoalX — The Outcome Frame, in conversation">
+<meta property="og:description" content="Most people run fast in the wrong direction. GoalX walks you through the outcome frame — eighteen questions that clarify what you actually want.">
 <meta property="og:site_name" content="GoalX">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="GoalX — Discover what you truly want">
+<meta name="twitter:title" content="GoalX — The Outcome Frame, in conversation">
 <meta name="twitter:description" content="Most people run fast in the wrong direction. GoalX helps you find out where you're actually going.">
 <meta name="theme-color" content="#0E1520">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230E1520'/%3E%3Cpath d='M50 22 L50 78 M32 40 L50 22 L68 40' stroke='%23E0B558' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://goalx.ai/#website",
+      "url": "https://goalx.ai/",
+      "name": "GoalX",
+      "description": "A guided conversation that walks you through the outcome frame — eighteen questions that clarify what you truly want.",
+      "publisher": { "@id": "https://goalx.ai/#chad" },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://goalx.ai/#app",
+      "name": "GoalX",
+      "url": "https://goalx.ai/",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Any modern web browser",
+      "browserRequirements": "Requires JavaScript",
+      "creator": { "@id": "https://goalx.ai/#chad" },
+      "isPartOf": { "@id": "https://goalx.ai/#website" },
+      "description": "GoalX walks you through the outcome frame — a sequence of eighteen questions that turns a vague wish into a well-formed outcome. Guided one question at a time by Skip, an AI guide. Works solo or coach-led, with an optional faith-based track. Nothing is stored.",
+      "featureList": [
+        "Eighteen outcome-frame questions asked one at a time",
+        "Well-formedness checking on every answer",
+        "Solo or coach-led mode with a private coaching panel",
+        "Optional faith-based or universal framing",
+        "Two-paragraph outcome summary with your first step",
+        "Download or email your summary and transcript",
+        "No account, no database, nothing stored"
+      ],
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "about": { "@id": "https://goalx.ai/outcome-frame#method" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://goalx.ai/#chad",
+      "name": "Chad Burmeister",
+      "url": "https://www.chadburmeister.com/",
+      "jobTitle": "Sales and Business Development Leader",
+      "description": "Denver-based sales and business development leader, host of The AI for Sales Podcast, and author of nine books. Forbes Next 1000 honoree. Builder of GoalX.",
+      "homeLocation": { "@type": "Place", "name": "Denver, Colorado" },
+      "knowsAbout": ["The outcome frame", "Well-formed outcomes", "Goal clarification", "Sales development", "AI for sales"],
+      "sameAs": [
+        "https://www.chadburmeister.com/",
+        "https://www.linkedin.com/in/chadburmeister",
+        "https://www.sdr.ai/",
+        "https://www.theaiforsalespodcast.com/",
+        "https://getzeteo.com/",
+        "https://salescard.ai/"
+      ]
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://goalx.ai/outcome-frame#method",
+      "name": "The Outcome Frame",
+      "alternateName": ["Outcome frame", "Well-formed outcome"],
+      "description": "A sequence of eighteen questions that turns a vague wish into a well-formed outcome: stated in the positive, specific enough to picture, verifiable by evidence, compatible with the rest of a person's life, and within their own control.",
+      "url": "https://goalx.ai/outcome-frame"
+    }
+  ]
+}
+</script>
 <style>
 :root{
   --ink:#0E1520;
@@ -273,10 +338,11 @@ footer{background:#0A1017;color:var(--muted-light);padding:52px 0 40px;font-size
     </a>
     <button class="navtoggle" id="navtoggle" aria-label="Menu" aria-expanded="false">☰</button>
     <nav class="navlinks" id="navlinks">
-      <a href="#method">The Method</a>
+      <a href="/outcome-frame">The Outcome Frame</a>
       <a href="#skip">Meet Skip</a>
       <a href="#coaches">For Coaches</a>
       <a href="#book">The Book</a>
+      <a href="/about">About</a>
       <a class="btn btn-sm" href="/coach">Chat with Skip</a>
     </nav>
   </div>
@@ -286,7 +352,7 @@ footer{background:#0A1017;color:var(--muted-light);padding:52px 0 40px;font-size
   <div class="wrap">
     <span class="eyebrow"><span class="dot"></span> Free · No account · Nothing stored</span>
     <h1>Most people run fast<br>in the <em>wrong direction.</em></h1>
-    <p class="lede">GoalX is a guided conversation that helps you find out where you're actually going — and whether it's somewhere you truly want to be.</p>
+    <p class="lede">GoalX walks you through <strong>the outcome frame</strong> — eighteen questions that turn a vague wish into something specific enough to run toward, and worth running toward at all.</p>
     <p class="lede">Eighteen questions, drawn from decades of work in linguistics, psychology, and how human beings actually change. Skip walks you through them, one at a time. <strong>It takes about 30 minutes and it will cost you nothing but honesty.</strong></p>
     <div class="hero-actions">
       <a class="btn" href="/coach">Chat with Skip →</a>
@@ -324,8 +390,8 @@ footer{background:#0A1017;color:var(--muted-light);padding:52px 0 40px;font-size
   <div class="wrap">
     <div class="sec-head">
       <p class="kicker">The Method</p>
-      <h2>Eighteen questions, in four movements</h2>
-      <p>The sequence matters. Each movement does work the next one depends on — which is why Skip asks them one at a time, and won't let you skate past an answer that isn't yet true.</p>
+      <h2>The outcome frame, in four movements</h2>
+      <p>The sequence matters. Each movement does work the next one depends on — which is why Skip asks them one at a time, and won't let you skate past an answer that isn't yet true. <a href="/outcome-frame" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(217,166,63,.4)">Read the full reference →</a></p>
     </div>
     <div class="movements">
       <div class="mv">
@@ -497,6 +563,7 @@ footer{background:#0A1017;color:var(--muted-light);padding:52px 0 40px;font-size
         <h2>The name belongs<br>to someone.</h2>
       </div>
       <div class="ded-body">
+        <p><em>From <a href="/about" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(217,166,63,.4)">Chad Burmeister</a>, who built GoalX:</em></p>
         <p>Skip Miller mentored me at three different companies. Somewhere along the way he stopped being a mentor and became a friend.</p>
         <p>He founded M3 Learning in 1995 — the day before he turned forty — wrote seven books, and taught ProActive Selling to more than 300,000 people across 35 countries. He had a way of asking the question you'd been avoiding, and then waiting.</p>
         <p class="ded-name">William “Skip” Richard Miller<br><span>November 3, 1955 — December 28, 2023</span></p>
@@ -525,10 +592,11 @@ footer{background:#0A1017;color:var(--muted-light);padding:52px 0 40px;font-size
         GoalX
       </div>
       <div class="foot-links">
-        <a href="#method">The Method</a>
+        <a href="/outcome-frame">The Outcome Frame</a>
         <a href="#skip">Meet Skip</a>
         <a href="#coaches">For Coaches</a>
         <a href="#book">The Book</a>
+        <a href="/about">About</a>
         <a href="#skip-miller">Why Skip?</a>
         <a href="https://getzeteo.com" target="_blank" rel="noopener">getzeteo.com</a>
         <a href="/coach">Chat with Skip</a>
@@ -536,7 +604,7 @@ footer{background:#0A1017;color:var(--muted-light);padding:52px 0 40px;font-size
     </div>
     <p class="foot-legal">
       GoalX is a reflective tool for personal goal clarification. It is not therapy, counseling, medical advice, or a substitute for professional care. If you're in crisis or struggling with your mental health, please reach out to a qualified professional or, in the US, call or text 988.<br><br>
-      © <span id="yr">2026</span> GoalX · Built on the Zēteō framework. Nothing you write here is stored.
+      © <span id="yr">2026</span> GoalX · Built by <a href="/about">Chad Burmeister</a> on the <a href="https://getzeteo.com" target="_blank" rel="noopener">Zēteō</a> framework. Nothing you write here is stored.
     </p>
   </div>
 </footer>

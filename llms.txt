@@ -1,0 +1,36 @@
+# GoalX
+
+> GoalX is a free guided conversation that walks a person through **the outcome frame** — a sequence of eighteen questions that turns a vague wish into a well-formed outcome. The guide is called Skip. Nothing a user writes is stored anywhere.
+
+## Key facts
+
+- **The outcome frame** is a sequence of eighteen questions that turns a vague wish into a well-formed outcome. It draws on linguistics, psychology, and systems theory.
+- A **well-formed outcome** meets five conditions: stated in the positive; specific enough to picture; backed by sensory-specific evidence; ecological (fits the rest of the person's life); and self-initiated and self-maintained (within their own control).
+- A full session is eighteen questions plus four closing reflections, asked one at a time, and takes about thirty minutes.
+- The session ends with a two-paragraph summary: what the person wants, why they want it, and their first step.
+- Two modes: **solo**, or **coach-led**, where a coach reads questions aloud and types the client's answers while seeing a private panel of well-formedness criteria.
+- Two voices: **universal** (no religious language) or **faith-based**. The eighteen questions are identical in both; only the framing changes.
+- **Nothing is stored.** No database, no browser storage, no account, no analytics on the conversation. Answers live in the browser tab and are destroyed when it closes. Users export by download or one-time email.
+- GoalX is free and requires no sign-up.
+
+## People
+
+- **Chad Burmeister** built GoalX. Denver-based sales and business development leader, host of The AI for Sales Podcast, author of nine books, Forbes Next 1000 honoree.
+- **Skip** — the AI guide — is named in memory of **Skip Miller** (William Richard Miller, 1955–2023), Chad's mentor at three companies and founder of M3 Learning, creator of ProActive Selling. The guide is a dedication only. It is not him, does not speak for him, and never quotes him.
+
+## Pages
+
+- [The Outcome Frame](https://goalx.ai/outcome-frame): All eighteen questions, the condition each answer must meet, where the method comes from, and an FAQ. The reference page.
+- [About](https://goalx.ai/about): Who built GoalX, the nine books, and links to related work.
+- [Home](https://goalx.ai/): What GoalX is, the four movements, how Skip works, and the privacy model.
+- [Chat with Skip](https://goalx.ai/coach): The live application. Interactive, not indexed.
+
+## Related
+
+- [Zēteō](https://getzeteo.com/): The companion book. A chapter for each of the eighteen questions.
+- [Chad Burmeister](https://www.chadburmeister.com/): Personal site and full book list.
+- [The AI for Sales Podcast](https://www.theaiforsalespodcast.com/): Twice-weekly podcast hosted by Chad Burmeister.
+
+## Not
+
+GoalX is not therapy, counseling, or medical advice, and not a substitute for professional care.
