@@ -2,8 +2,15 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "app.goalx.ai" }],
+      "destination": "/coach",
+      "permanent": false
+    }
+  ],
   "rewrites": [
-    { "source": "/", "has": [{ "type": "host", "value": "app.goalx.ai" }], "destination": "/coach" },
     { "source": "/chat", "destination": "/coach" },
     { "source": "/skip", "destination": "/coach" }
   ],
@@ -19,15 +26,11 @@
     },
     {
       "source": "/coach",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store, max-age=0" }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "no-store, max-age=0" }]
     },
     {
       "source": "/api/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store, max-age=0" }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "no-store, max-age=0" }]
     }
   ]
 }
