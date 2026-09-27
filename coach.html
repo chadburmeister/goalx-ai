@@ -468,14 +468,34 @@ function setStep(step){
 }
 
 /* ---------- rendering ---------- */
+// Skip writes light markdown (**bold**, *italic*). Render those two as real
+// emphasis using text nodes only — never innerHTML with model output.
+var EMPH = /\*\*([^*\n]+?)\*\*|\*([^*\s][^*\n]*?)\*/g;
+
 function paras(text){
   var frag = document.createDocumentFragment();
   String(text).split(/\n{2,}/).forEach(function(chunk){
     var p = document.createElement('p');
-    p.textContent = chunk.trim();
+    var s = chunk.trim(), last = 0, m;
+    EMPH.lastIndex = 0;
+    while((m = EMPH.exec(s))){
+      if(m.index > last) p.appendChild(document.createTextNode(s.slice(last, m.index)));
+      var el = document.createElement(m[1] ? 'strong' : 'em');
+      el.textContent = m[1] || m[2];
+      p.appendChild(el);
+      last = EMPH.lastIndex;
+    }
+    if(last < s.length) p.appendChild(document.createTextNode(s.slice(last)));
     frag.appendChild(p);
   });
   return frag;
+}
+
+// Same markdown, for the Word/PDF export: escape first, then add tags.
+function emphHtml(s){
+  return escapeHtml(s).replace(EMPH, function(_, b, i){
+    return b ? '<strong>' + b + '</strong>' : '<em>' + i + '</em>';
+  });
 }
 
 function addTurn(role, text){
@@ -662,7 +682,7 @@ function documentHtml(){
     var who = m.role === 'assistant' ? 'Skip' : (S.name || 'You');
     return '<p style="margin:0 0 4px;font-size:9.5pt;font-weight:bold;color:' +
       (m.role === 'assistant' ? '#8a6d2f' : '#33404f') + '">' + escapeHtml(who.toUpperCase()) + '</p>' +
-      '<p style="margin:0 0 16px;font-size:11pt;line-height:1.5;white-space:pre-wrap">' + escapeHtml(m.content) + '</p>';
+      '<p style="margin:0 0 16px;font-size:11pt;line-height:1.5;white-space:pre-wrap">' + emphHtml(m.content) + '</p>';
   }).join('');
 
   return '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
@@ -672,7 +692,7 @@ function documentHtml(){
     '<h1 style="font-family:Georgia,serif;font-size:22pt;margin:0 0 4px">Your Outcome</h1>' +
     '<p style="font-size:10pt;color:#5c6878;margin:0 0 26px">' + escapeHtml((S.name ? S.name + ' · ' : '') + dateStr()) + '</p>' +
     '<div style="font-family:Georgia,serif;font-size:12.5pt;line-height:1.65;white-space:pre-wrap;border-left:3px solid #d9a63f;padding-left:14px">' +
-      escapeHtml(S.summary) + '</div>' +
+      emphHtml(S.summary) + '</div>' +
     '<br style="page-break-before:always">' +
     '<h2 style="font-family:Georgia,serif;font-size:16pt;margin:0 0 20px">The Full Conversation</h2>' +
     rows +
