@@ -21,6 +21,15 @@ function escapeHtml(s) {
     .replace(/"/g, '&quot;');
 }
 
+// Skip writes light markdown (**bold**, *italic*). Escape first, then add tags.
+const EMPH = /\*\*([^*\n]+?)\*\*|\*([^*\s][^*\n]*?)\*/g;
+function emphHtml(s) {
+  return escapeHtml(s).replace(EMPH, (_, b, i) => (b ? `<strong>${b}</strong>` : `<em>${i}</em>`));
+}
+function stripEmph(s) {
+  return String(s).replace(EMPH, (_, b, i) => b || i);
+}
+
 function isEmail(s) {
   return typeof s === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s.trim()) && s.length < 320;
 }
@@ -72,7 +81,7 @@ module.exports = async function handler(req, res) {
       const colour = m.role === 'assistant' ? '#8a6d2f' : '#33404f';
       return `<div style="margin:0 0 20px"><div style="font:600 11px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:${colour};margin-bottom:5px">${escapeHtml(
         who
-      )}</div><div style="font:400 15px/1.65 -apple-system,Segoe UI,Roboto,sans-serif;color:#1a2330;white-space:pre-wrap">${escapeHtml(
+      )}</div><div style="font:400 15px/1.65 -apple-system,Segoe UI,Roboto,sans-serif;color:#1a2330;white-space:pre-wrap">${emphHtml(
         String(m.content || '')
       )}</div></div>`;
     })
@@ -87,7 +96,7 @@ module.exports = async function handler(req, res) {
     <p style="font:400 14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;color:#5c6878;margin:0 0 30px">${escapeHtml(
       new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     )}</p>
-    <div style="font:400 16.5px/1.72 Georgia,serif;color:#1a2330;white-space:pre-wrap;border-left:3px solid #d9a63f;padding:4px 0 4px 24px;margin:0 0 38px">${escapeHtml(
+    <div style="font:400 16.5px/1.72 Georgia,serif;color:#1a2330;white-space:pre-wrap;border-left:3px solid #d9a63f;padding:4px 0 4px 24px;margin:0 0 38px">${emphHtml(
       summary
     )}</div>
     ${
@@ -105,10 +114,10 @@ module.exports = async function handler(req, res) {
 </div>`;
 
   const plain =
-    `GOALX — YOUR OUTCOME\n${new Date().toDateString()}\n\n${summary}\n\n` +
+    `GOALX — YOUR OUTCOME\n${new Date().toDateString()}\n\n${stripEmph(summary)}\n\n` +
     (transcript.length
       ? `\n----- THE FULL CONVERSATION -----\n\n` +
-        transcript.map(m => `${m.role === 'assistant' ? 'SKIP' : (name || 'YOU').toUpperCase()}:\n${m.content}\n`).join('\n')
+        transcript.map(m => `${m.role === 'assistant' ? 'SKIP' : (name || 'YOU').toUpperCase()}:\n${stripEmph(m.content)}\n`).join('\n')
       : '') +
     `\n\nThis email is the only copy. GoalX stored nothing.`;
 
